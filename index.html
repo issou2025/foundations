@@ -1,1 +1,2804 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔧 Guide Ultime des Fondations | Eurocode 7 & EC2</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    :root {
+      --neon-blue: #00eeff;
+      --neon-purple: #bd00ff;
+      --neon-green: #00ff9d;
+      --neon-pink: #ff00c8;
+      --neon-yellow: #fffd00;
+      --neon-orange: #ff6b35;
+      --neon-red: #ff3366;
+      --dark-bg: #0a0a14;
+      --darker-bg: #05050a;
+      --card-bg: #121220;
+      --text-primary: #ffffff;
+      --text-secondary: #b0b0c0;
+      --accent: #00f7ff;
+      --gradient-blue: linear-gradient(135deg, var(--neon-blue), #0066ff);
+      --gradient-purple: linear-gradient(135deg, var(--neon-purple), #6600ff);
+      --gradient-green: linear-gradient(135deg, var(--neon-green), #00cc66);
+      --gradient-pink: linear-gradient(135deg, var(--neon-pink), #ff3366);
+      --gradient-yellow: linear-gradient(135deg, var(--neon-yellow), #ff9900);
+      --gradient-orange: linear-gradient(135deg, var(--neon-orange), #f7931e);
+      --gradient-red: linear-gradient(135deg, var(--neon-red), #cc0066);
+      --gradient-danger: linear-gradient(135deg, #ff4757, #ff3742);
+      --shadow-neon: 0 0 20px rgba(0, 247, 255, 0.3);
+      --transition-all: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
+      color: var(--text-primary);
+      background: var(--dark-bg);
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 247, 255, 0.03) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(189, 0, 255, 0.03) 0%, transparent 20%);
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5 {
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      background: var(--gradient-blue);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      margin: 2.5rem 0 1.5rem;
+      position: relative;
+      padding-bottom: 1rem;
+      background: var(--gradient-blue);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    h2::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100px;
+      height: 4px;
+      background: var(--gradient-blue);
+      border-radius: 2px;
+    }
+
+    h3 {
+      font-size: 1.6rem;
+      margin: 2rem 0 1rem;
+      background: var(--gradient-green);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    h4 {
+      font-size: 1.3rem;
+      margin: 1.5rem 0 0.8rem;
+      color: var(--neon-green);
+    }
+
+    p {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* Header */
+    header {
+      background: var(--darker-bg);
+      padding: 2rem 0;
+      text-align: center;
+      position: relative;
+      border-bottom: 2px solid rgba(0, 247, 255, 0.3);
+    }
+
+    header h1 {
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    header h1 i {
+      color: var(--neon-blue);
+      font-size: 2.5rem;
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    header .subtitle {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 800px;
+      margin: 0 auto;
+      font-weight: 500;
+    }
+
+    .header-tags {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      background: rgba(0, 247, 255, 0.1);
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: 1px solid rgba(0, 247, 255, 0.2);
+      color: var(--neon-blue);
+    }
+
+    /* Navigation */
+    .nav-breadcrumb {
+      background: var(--darker-bg);
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(0, 247, 255, 0.1);
+    }
+
+    .breadcrumb {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+    }
+
+    .breadcrumb a {
+      color: var(--neon-blue);
+      text-decoration: none;
+      transition: var(--transition-all);
+      font-weight: 500;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--neon-purple);
+      text-decoration: underline;
+    }
+
+    /* Main Content */
+    main {
+      padding: 1.5rem 0;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: var(--transition-all);
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(0, 247, 255, 0.1);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 247, 255, 0.2);
+      border-color: rgba(0, 247, 255, 0.3);
+    }
+
+    .card-header {
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .card-header.shallow { background: var(--gradient-blue); }
+    .card-header.deep { background: var(--gradient-purple); }
+    .card-header.raft { background: var(--gradient-green); }
+    .card-header.piled { background: var(--gradient-pink); }
+    .card-header.world { background: var(--gradient-orange); }
+    .card-header.technical { background: var(--gradient-red); }
+    .card-header.failure { background: var(--gradient-danger); }
+
+    .card-header h3 {
+      color: white;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 1.5rem;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    /* Foundation Detail */
+    .foundation-detail {
+      margin-bottom: 2rem;
+    }
+
+    .detail-section {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin: 1rem 0;
+      border: 1px solid rgba(0, 247, 255, 0.1);
+    }
+
+    .detail-section h4 {
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    /* Diagrams */
+    .diagram-container {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(0, 247, 255, 0.1);
+    }
+
+    .diagram-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 1rem 0;
+      border: 1px solid rgba(0, 247, 255, 0.2);
+    }
+
+    .diagram-container h4 {
+      color: var(--neon-blue);
+      margin-bottom: 1rem;
+    }
+
+    /* Progress Steps */
+    .progress-container {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(0, 247, 255, 0.1);
+    }
+
+    .progress-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      padding: 1rem;
+      border-radius: 8px;
+      background: rgba(0, 247, 255, 0.05);
+      border-left: 3px solid var(--neon-blue);
+    }
+
+    .progress-step:last-child {
+      margin-bottom: 0;
+    }
+
+    .progress-number {
+      background: var(--gradient-blue);
+      color: var(--dark-bg);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+    }
+
+    .progress-content h5 {
+      color: var(--neon-blue);
+      margin: 0 0 0.3rem 0;
+      font-size: 1.1rem;
+    }
+
+    .progress-content p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    /* Materials Grid */
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .material-card {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid rgba(0, 247, 255, 0.1);
+      transition: var(--transition-all);
+    }
+
+    .material-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0, 247, 255, 0.3);
+    }
+
+    .material-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--neon-blue);
+    }
+
+    .material-card h5 {
+      color: var(--neon-green);
+      margin: 0 0 0.3rem 0;
+      font-size: 0.9rem;
+    }
+
+    .material-card p {
+      font-size: 0.8rem;
+      margin: 0;
+      color: var(--text-secondary);
+    }
+
+    /* Advantages/Disadvantages */
+    .advantages, .disadvantages {
+      margin: 1.2rem 0;
+    }
+
+    .advantages h4, .disadvantages h4 {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.8rem;
+      font-size: 1.2rem;
+    }
+
+    .advantages h4 { color: var(--neon-green); }
+    .disadvantages h4 { color: var(--neon-pink); }
+
+    .advantages ul, .disadvantages ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .advantages li, .disadvantages li {
+      margin-bottom: 0.6rem;
+      padding-left: 1.8rem;
+      position: relative;
+      font-size: 0.95rem;
+    }
+
+    .advantages li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--neon-green);
+      font-weight: bold;
+    }
+
+    .disadvantages li::before {
+      content: "✗";
+      position: absolute;
+      left: 0;
+      color: var(--neon-pink);
+      font-weight: bold;
+    }
+
+    /* Amazon Links */
+    .amazon-section {
+      margin-top: 1rem;
+      padding-top: 1rem;
+    }
+
+    .amazon-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--gradient-yellow);
+      color: var(--dark-bg);
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      text-align: center;
+      transition: var(--transition-all);
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 5px 15px rgba(255, 253, 0, 0.3);
+      gap: 0.6rem;
+      font-size: 0.95rem;
+    }
+
+    .amazon-link:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(255, 253, 0, 0.5);
+    }
+
+    .amazon-link i {
+      font-size: 1.2rem;
+    }
+
+    /* Formula Boxes */
+    .formula-container {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(0, 247, 255, 0.1);
+    }
+
+    .formula-container h4 {
+      color: var(--neon-blue);
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .math-formula {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 1.2rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+      text-align: center;
+      border-left: 3px solid var(--neon-blue);
+    }
+
+    .math-formula .MathJax_Display {
+      margin: 0 !important;
+      color: var(--neon-blue) !important;
+      font-size: 1.1rem !important;
+    }
+
+    /* Tables */
+    .technical-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 247, 255, 0.1);
+    }
+
+    .technical-table th {
+      background: var(--gradient-blue);
+      color: var(--dark-bg);
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .technical-table td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(0, 247, 255, 0.1);
+      font-size: 0.9rem;
+    }
+
+    .technical-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* World Structures Grid */
+    .world-structures-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .structure-card {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 247, 255, 0.1);
+      transition: var(--transition-all);
+    }
+
+    .structure-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 107, 53, 0.5);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .structure-image {
+      height: 180px;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--neon-orange);
+      font-size: 3rem;
+    }
+
+    .structure-content {
+      padding: 1.2rem;
+    }
+
+    .structure-content h4 {
+      color: var(--neon-orange);
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
+
+    .structure-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+
+    .stat-item {
+      background: rgba(255, 107, 53, 0.1);
+      padding: 0.6rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-weight: bold;
+      color: var(--neon-orange);
+      font-size: 1.1rem;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* Failure Cases */
+    .failure-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .failure-card {
+      background: rgba(255, 51, 102, 0.05);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 51, 102, 0.2);
+      transition: var(--transition-all);
+    }
+
+    .failure-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 51, 102, 0.5);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .failure-image {
+      height: 150px;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--neon-red);
+      font-size: 2.5rem;
+    }
+
+    .failure-content {
+      padding: 1.2rem;
+    }
+
+    .failure-content h4 {
+      color: var(--neon-red);
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
+
+    .failure-cause {
+      background: rgba(255, 51, 102, 0.1);
+      padding: 0.8rem;
+      border-radius: 8px;
+      margin: 0.8rem 0;
+      border-left: 3px solid var(--neon-red);
+    }
+
+    .failure-cause h5 {
+      color: var(--neon-red);
+      margin: 0 0 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Conclusion */
+    .conclusion {
+      background: var(--darker-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem 0;
+      border: 1px solid rgba(0, 247, 255, 0.2);
+    }
+
+    .conclusion h2 {
+      color: var(--neon-green);
+      text-align: center;
+    }
+
+    .conclusion h2::after {
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gradient-green);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.8rem; }
+      h3 { font-size: 1.4rem; }
+      
+      .card-body { padding: 1.2rem; }
+      .card-header { padding: 1.2rem; }
+      .card-header h3 { font-size: 1.3rem; }
+      
+      .materials-grid { grid-template-columns: repeat(2, 1fr); }
+      .progress-step { gap: 0.8rem; }
+      
+      .header-tags { gap: 0.5rem; }
+      .tag { font-size: 0.7rem; padding: 0.3rem 0.8rem; }
+      
+      .breadcrumb { font-size: 0.75rem; }
+      
+      .world-structures-grid { grid-template-columns: 1fr; }
+      .failure-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 10px; }
+      
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.5rem; }
+      h3 { font-size: 1.2rem; }
+      
+      header { padding: 1.5rem 0; }
+      header h1 { gap: 0.5rem; }
+      header h1 i { font-size: 1.8rem; }
+      
+      .card { margin-bottom: 1rem; }
+      .card-body { padding: 1rem; }
+      .card-header { padding: 1rem; }
+      
+      .materials-grid { grid-template-columns: 1fr; }
+      .progress-step { flex-direction: column; gap: 0.5rem; }
+      
+      .amazon-link { padding: 0.7rem 1rem; font-size: 0.85rem; }
+      
+      .formula-container { padding: 1rem; }
+      .math-formula { padding: 1rem; }
+      
+      .structure-stats { grid-template-columns: 1fr; }
+    }
+
+    /* Animation Classes */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+    .delay-6 { animation-delay: 0.6s; }
+
+    /* Highlight Boxes */
+    .highlight-box {
+      background: rgba(0, 247, 255, 0.05);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid var(--neon-blue);
+      border: 1px solid rgba(0, 247, 255, 0.1);
+    }
+
+    .highlight-box h4 {
+      color: var(--neon-blue);
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    /* Technical Specifications */
+    .tech-specs {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(0, 247, 255, 0.1);
+    }
+
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .spec-item {
+      background: rgba(0, 247, 255, 0.05);
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 3px solid var(--neon-blue);
+    }
+
+    .spec-item h5 {
+      color: var(--neon-blue);
+      margin: 0 0 0.5rem 0;
+      font-size: 1rem;
+    }
+
+    .spec-item p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    /* Case Study */
+    .case-study {
+      background: rgba(255, 107, 53, 0.05);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid var(--neon-orange);
+      border: 1px solid rgba(255, 107, 53, 0.2);
+    }
+
+    .case-study h4 {
+      color: var(--neon-orange);
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    /* Warning Box */
+    .warning-box {
+      background: rgba(255, 51, 102, 0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid var(--neon-red);
+      border: 1px solid rgba(255, 51, 102, 0.2);
+    }
+
+    .warning-box h4 {
+      color: var(--neon-red);
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    /* Equipment Cards */
+    .equipment-card {
+      background: rgba(255, 253, 0, 0.05);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid var(--neon-yellow);
+      border: 1px solid rgba(255, 253, 0, 0.2);
+      transition: var(--transition-all);
+    }
+
+    .equipment-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 253, 0, 0.5);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .equipment-card h4 {
+      color: var(--neon-yellow);
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .equipment-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .feature-item {
+      background: rgba(255, 253, 0, 0.1);
+      padding: 0.8rem;
+      border-radius: 8px;
+    }
+
+    .feature-item h5 {
+      color: var(--neon-yellow);
+      margin: 0 0 0.3rem 0;
+      font-size: 0.9rem;
+    }
+
+    .feature-item p {
+      margin: 0;
+      font-size: 0.85rem;
+    }
+
+    .pros-cons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .pros {
+      background: rgba(0, 255, 157, 0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 3px solid var(--neon-green);
+    }
+
+    .cons {
+      background: rgba(255, 51, 102, 0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 3px solid var(--neon-red);
+    }
+
+    .pros h5, .cons h5 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1rem;
+    }
+
+    .pros h5 { color: var(--neon-green); }
+    .cons h5 { color: var(--neon-red); }
+
+    .pros ul, .cons ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .pros li, .cons li {
+      margin-bottom: 0.3rem;
+      padding-left: 1.2rem;
+      position: relative;
+      font-size: 0.85rem;
+    }
+
+    .pros li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--neon-green);
+      font-weight: bold;
+    }
+
+    .cons li::before {
+      content: "✗";
+      position: absolute;
+      left: 0;
+      color: var(--neon-red);
+      font-weight: bold;
+    }
+
+    .bottom-line {
+      background: rgba(0, 247, 255, 0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      border-left: 3px solid var(--neon-blue);
+    }
+
+    .bottom-line h5 {
+      color: var(--neon-blue);
+      margin: 0 0 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><i class="fas fa-building"></i> Guide Ultime des Fondations</h1>
+      <p class="subtitle">Conception selon Eurocode 7 & EC2 - Tous les types de fondations + Études de cas mondiales + Cas d'effondrements</p>
+      <div class="header-tags">
+        <div class="tag">🏗️ Eurocode 7</div>
+        <div class="tag">📐 EC2</div>
+        <div class="tag">🔧 Génie Civil</div>
+        <div class="tag">🌍 Mondial</div>
+        <div class="tag">📱 Mobile</div>
+        <div class="tag">⚠️ Sécurité</div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav-breadcrumb">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="#"><i class="fas fa-home"></i> Accueil</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.6rem;"></i>
+        <a href="#">Génie Civil</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.6rem;"></i>
+        <span>Fondations</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- INTRODUCTION -->
+    <section class="animate-fade-in-up">
+      <div class="card">
+        <div class="card-header technical">
+          <h3><i class="fas fa-book-open"></i> Introduction Technique aux Fondations</h3>
+        </div>
+        <div class="card-body">
+          <p>
+            Les fondations constituent l'élément critique de transfert des charges structurales vers le sol porteur. 
+            Selon l'<strong>Eurocode 7 (EN 1997-1)</strong>, la conception des fondations doit intégrer une approche 
+            basée sur les états limites ultimes (ELU) et les états limites de serviceabilité (ELS). Cette science 
+            complexe combine géotechnique, structurelle et construction.
+          </p>
+          
+          <div class="highlight-box">
+            <h4><i class="fas fa-lightbulb"></i> Principes Fondamentaux de l'Ingénierie des Fondations</h4>
+            <ul>
+              <li><strong>Transfert des charges</strong> : Acheminer les charges verticales et horizontales vers le sol porteur</li>
+              <li><strong>Stabilité globale</strong> : Assurer l'équilibre contre forces de renversement et glissement</li>
+              <li><strong>Durabilité</strong> : Résister aux agressions chimiques, biologiques et physiques pendant 50-100 ans</li>
+              <li><strong>Contrôle des déformations</strong> : Limiter tassements, déplacements différentiels et vibrations</li>
+              <li><strong>Optimisation économique</strong> : Équilibrer sécurité, performance et coût</li>
+            </ul>
+          </div>
+
+          <h3>Classification Technique des Fondations</h3>
+          <div class="technical-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Type de Fondation</th>
+                  <th>Critères Techniques</th>
+                  <th>Mécanismes de Transfert</th>
+                  <th>Domaine d'Application</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Superficielles</strong></td>
+                  <td>D ≤ 3m, D/B ≥ 1</td>
+                  <td>Pression de contact</td>
+                  <td>Sols porteurs proches surface</td>
+                </tr>
+                <tr>
+                  <td><strong>Profondes</strong></td>
+                  <td>D > 3m, D/B < 1</td>
+                  <td>Frottement + portance pointe</td>
+                  <td>Sols superficiels faibles</td>
+                </tr>
+                <tr>
+                  <td><strong>Semi-profondes</strong></td>
+                  <td>3m < D < 6m, 0.5 < D/B < 2</td>
+                  <td>Mixte superficielle/profonde</td>
+                  <td>Conditions intermédiaires</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="tech-specs">
+            <h4><i class="fas fa-cogs"></i> Paramètres Techniques de Conception</h4>
+            <div class="specs-grid">
+              <div class="spec-item">
+                <h5>Contraintes de Sol</h5>
+                <p>q_adm = 50-5000 kPa selon nature sol</p>
+              </div>
+              <div class="spec-item">
+                <h5>Tassements Admissibles</h5>
+                <p>Δ_max = 25-100 mm selon structure</p>
+              </div>
+              <div class="spec-item">
+                <h5>Facteur de Sécurité</h5>
+                <p>F = 2.0-3.0 selon conditions</p>
+              </div>
+              <div class="spec-item">
+                <h5>Module de Réaction</h5>
+                <p>k = 10-100000 kN/m³ selon sol</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ÉQUIPEMENTS PROFESSIONNELS -->
+    <section class="animate-fade-in-up delay-1">
+      <div class="card">
+        <div class="card-header shallow">
+          <h3><i class="fas fa-tools"></i> Équipements Professionnels pour Fondations</h3>
+        </div>
+        <div class="card-body">
+          <p>
+            L'exécution de fondations de qualité nécessite des équipements professionnels adaptés. Voici 
+            deux outils essentiels pour la réalisation de béton armé et le repérage précis :
+          </p>
+
+          <!-- VIBRATEUR À BÉTON -->
+          <div class="equipment-card">
+            <h4><i class="fas fa-vial"></i> IMAYCC 1300 W Concrete Vibrator – Outil Essentiel</h4>
+            <div class="equipment-features">
+              <div class="feature-item">
+                <h5>Puissance</h5>
+                <p>1300 W, 110 V, axe de 2m</p>
+              </div>
+              <div class="feature-item">
+                <h5>Utilisation</h5>
+                <p>Élimine bulles air dans béton</p>
+              </div>
+            </div>
+
+            <div class="pros-cons">
+              <div class="pros">
+                <h5><i class="fas fa-thumbs-up"></i> Avantages</h5>
+                <ul>
+                  <li>Excellent rapport qualité/prix</li>
+                  <li>Facile à utiliser - assemblage rapide</li>
+                  <li>Efficace - élimine poches air</li>
+                </ul>
+              </div>
+              <div class="cons">
+                <h5><i class="fas fa-thumbs-down"></i> Inconvénients</h5>
+                <ul>
+                  <li>Vibration aléatoire - nécessite tapotement</li>
+                  <li>Pas grade pro - usage occasionnel</li>
+                  <li>Problèmes sécurité - fil de terre</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bottom-line">
+              <h5><i class="fas fa-check-circle"></i> Conclusion</h5>
+              <p>
+                Vibrateur économique pour particuliers, parfait pour poteaux, semelles et petites dalles. 
+                Ne pas utiliser pour usage intensif professionnel.
+              </p>
+            </div>
+
+            <div class="amazon-section">
+              <a href="https://amzn.to/3JfVaOg" class="amazon-link" target="_blank" rel="noopener">
+                <i class="fas fa-shopping-cart"></i> Acheter IMAYCC 1300 W Concrete Vibrator sur Amazon
+              </a>
+            </div>
+          </div>
+
+          <!-- NIVEAU LASER 3D -->
+          <div class="equipment-card">
+            <h4><i class="fas fa-level-down-alt"></i> LasGoo LG-3Dx 3×360° Green Laser Level – Précision Pro</h4>
+            <div class="equipment-features">
+              <div class="feature-item">
+                <h5>Couverture</h5>
+                <p>3 plans 360° (horizontal + 2 verticals)</p>
+              </div>
+              <div class="feature-item">
+                <h5>Autonomie</h5>
+                <p>Batterie rechargeable, USB-C, 1 journée</p>
+              </div>
+            </div>
+
+            <div class="pros-cons">
+              <div class="pros">
+                <h5><i class="fas fa-thumbs-up"></i> Avantages</h5>
+                <ul>
+                  <li>Auto-nivelant en 3 secondes</li>
+                  <li>Faisceaux verts nets jusqu'à 30m</li>
+                  <li>Support magnétique + télécommande</li>
+                  <li>Rapport qualité/prix exceptionnel</li>
+                </ul>
+              </div>
+              <div class="cons">
+                <h5><i class="fas fa-thumbs-down"></i> Inconvénients</h5>
+                <ul>
+                  <li>Uniformité faisceau variable</li>
+                  <li>Usage extérieur limité</li>
+                  <li>Unités DOA occasionnelles</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bottom-line">
+              <h5><i class="fas fa-check-circle"></i> Conclusion</h5>
+              <p>
+                Laser 3D professionnel abordable, idéal pour charpente, carrelage et menuiserie. 
+                Remplace efficacement plusieurs outils traditionnels.
+              </p>
+            </div>
+
+            <div class="amazon-section">
+              <a href="https://amzn.to/4lTHVkR" class="amazon-link" target="_blank" rel="noopener">
+                <i class="fas fa-shopping-cart"></i> Acheter LasGoo LG-3Dx 3×360° Green Laser sur Amazon
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FONDATIONS SUPERFICIELLES - DÉTAIL TECHNIQUE -->
+    <section class="animate-fade-in-up delay-2">
+      <div class="card">
+        <div class="card-header shallow">
+          <h3><i class="fas fa-border-style"></i> Fondations Superficielles - Ingénierie Avancée</h3>
+        </div>
+        <div class="card-body">
+          <p>
+            Les fondations superficielles sont placées à faible profondeur et transmettent les charges par 
+            pression de contact sur la surface de portance. Elles reposent sur le principe de la mécanique 
+            des sols développé par Terzaghi, Meyerhof et Vesic.
+          </p>
+
+          <div class="diagram-container">
+            <h4><i class="fas fa-project-diagram"></i> Mécanisme de Rupture de Terzaghi</h4>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/17/Shallow_foundation_diagram.png" alt="Fondations superficielles">
+            <p>Zone de rupture en forme de coin + zones de cisaillement radial et linéaire</p>
+          </div>
+
+          <!-- SEMELLES ISOLÉES - ANALYSE DÉTAILLÉE -->
+          <div class="foundation-detail">
+            <div class="detail-section">
+              <h4><i class="fas fa-square"></i> Semelles Isolées - Analyse Technique Complète</h4>
+              <p>
+                Supportent des poteaux individuels. Dimensionnées selon Eurocode 2 pour résister aux 
+                efforts de flexion, cisaillement et poinçonnement. La géométrie optimale dépend des 
+                contraintes de sol et des charges structurales.
+              </p>
+
+              <div class="formula-container">
+                <h4><i class="fas fa-calculator"></i> Calcul de Capacité Portante - Méthode de Terzaghi</h4>
+                <div class="math-formula">
+                  $$q_u = c' \cdot N_c \cdot s_c \cdot i_c + q \cdot N_q \cdot s_q \cdot i_q + 0.5 \cdot \gamma' \cdot B' \cdot N_\gamma \cdot s_\gamma \cdot i_\gamma$$
+                </div>
+                <p>
+                  Où : $c'$ = cohésion effective, $N_c, N_q, N_\gamma$ = coefficients de portance, 
+                  $s_c, s_q, s_\gamma$ = facteurs de forme, $i_c, i_q, i_\gamma$ = facteurs d'inclinaison
+                </p>
+              </div>
+
+              <div class="tech-specs">
+                <h4><i class="fas fa-ruler-combined"></i> Spécifications Techniques</h4>
+                <div class="specs-grid">
+                  <div class="spec-item">
+                    <h5>Dimensions Minimales</h5>
+                    <p>B_min = 0.6m, h_min = max(B/4, 20cm)</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Excentricité Maximale</h5>
+                    <p>e_max = B/6 pour éviter traction</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Armature Minimale</h5>
+                    <p>ρ_min = 0.15% pour FeE400</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Enrobage</h5>
+                    <p>c_min = 5cm (classe XC1)</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="progress-container">
+                <h4><i class="fas fa-hard-hat"></i> Procédé de Construction - Contrôle Qualité</h4>
+                <div class="progress-step">
+                  <div class="progress-number">1</div>
+                  <div class="progress-content">
+                    <h5>Terrassement Précis</h5>
+                    <p>Excavation à ±5cm, compactage fond de fouille à 95% Proctor</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">2</div>
+                  <div class="progress-content">
+                    <h5>Béton de Propreté</h5>
+                    <p>Coulage couche 5-10cm, surface plane à ±3mm</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">3</div>
+                  <div class="progress-content">
+                    <h5>Coffrage Rigide</h5>
+                    <p>Formes métalliques, tolérances ±2mm, étanchéité joints</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">4</div>
+                  <div class="progress-content">
+                    <h5>Armature Précise</h5>
+                    <p>Positionnement à ±5mm, recouvrements calculés, étriers espacés</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">5</div>
+                  <div class="progress-content">
+                    <h5>Bétonnage Contrôlé</h5>
+                    <p>Vibration interne, essais résistance, cure 7-28 jours</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="materials-grid">
+                <div class="material-card">
+                  <div class="material-icon"><i class="fas fa-cube"></i></div>
+                  <h5>Béton C30/37</h5>
+                  <p>Minimum pour structures moyennes</p>
+                </div>
+                <div class="material-card">
+                  <div class="material-icon"><i class="fas fa-bolt"></i></div>
+                  <h5>Acier B500B</h5>
+                  <p>Limite élastique 500 MPa</p>
+                </div>
+                <div class="material-card">
+                  <div class="material-icon"><i class="fas fa-water"></i></div>
+                  <h5>Additifs</h5>
+                  <p>Plastifiants, agents de cure</p>
+                </div>
+                <div class="material-card">
+                  <div class="material-icon"><i class="fas fa-thermometer-half"></i></div>
+                  <h5>Température</h5>
+                  <p>5-30°C pendant bétonnage</p>
+                </div>
+              </div>
+
+              <div class="case-study">
+                <h4><i class="fas fa-flask"></i> Étude de Cas - Semelle Isolée de 3m×3m×0.8m</h4>
+                <p>
+                  <strong>Charges :</strong> N = 2500 kN, M = 150 kNm, V = 80 kN<br>
+                  <strong>Sol :</strong> Argile molle (cu = 75 kPa, γ = 18 kN/m³)<br>
+                  <strong>Vérifications :</strong> q_max = 350 kPa < q_adm = 400 kPa, Δ = 25mm < 40mm
+                </p>
+              </div>
+
+              <div class="advantages">
+                <h4><i class="fas fa-check-circle"></i> Avantages Techniques</h4>
+                <ul>
+                  <li>Flexibilité dimensionnelle pour optimisation économique</li>
+                  <li>Facilité d'exécution avec équipements standards</li>
+                  <li>Adaptabilité aux sols homogènes à portance modérée</li>
+                  <li>Contrôle qualité simplifié par rapport aux fondations profondes</li>
+                </ul>
+              </div>
+
+              <div class="disadvantages">
+                <h4><i class="fas fa-times-circle"></i> Limitations Techniques</h4>
+                <ul>
+                  <li>Sensibilité aux tassements différentiels dans sols hétérogènes</li>
+                  <li>Inadaptation aux sols très compressibles (E < 10 MPa)</li>
+                  <li>Contraintes de nivellement rigoureuses (±5mm)</li>
+                  <li>Difficultés d'accès aux réseaux enterrés</li>
+                </ul>
+              </div>
+
+              <div class="amazon-section">
+                <a href="https://amzn.to/3JfVaOg" class="amazon-link" target="_blank" rel="noopener">
+                  <i class="fas fa-shopping-cart"></i> Vibrateur béton IMAYCC 1300W pour semelles parfaites
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- SEMELLES FILANTES - ANALYSE DÉTAILLÉE -->
+          <div class="foundation-detail">
+            <div class="detail-section">
+              <h4><i class="fas fa-border-all"></i> Semelles Filantes - Ingénierie Avancée</h4>
+              <p>
+                Supportent les murs porteurs et se développent sur toute la longueur du mur. Modélisées 
+                comme des poutres continues sur sol élastique selon la théorie de Winkler. La distribution 
+                des réactions dépend de la rigidité relative semelle-sol.
+              </p>
+
+              <div class="diagram-container">
+                <h4><i class="fas fa-project-diagram"></i> Modélisation de Winkler</h4>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Strip_Footing.png" alt="Semelles filantes">
+                <p>Sol modélisé par des ressorts indépendants de rigidité k (module de réaction)</p>
+              </div>
+
+              <div class="formula-container">
+                <h4><i class="fas fa-calculator"></i> Équation Différentielle de la Semelle Filante</h4>
+                <div class="math-formula">
+                  $$EI \frac{d^4w}{dx^4} + kw = q(x)$$
+                </div>
+                <p>
+                  Où : $EI$ = rigidité flexionnelle, $k$ = module de réaction du sol, $w$ = flèche, $q(x)$ = charge répartie
+                </p>
+              </div>
+
+              <div class="tech-specs">
+                <h4><i class="fas fa-cogs"></i> Paramètres de Conception</h4>
+                <div class="specs-grid">
+                  <div class="spec-item">
+                    <h5>Rapport Rigidité</h5>
+                    <p>K = (EI/L⁴)/k - détermine comportement flexible/rigide</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Longueur de Flexion</h5>
+                    <p>λ = ∜(4EI/k) - distance influence charge</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Hauteur Minimale</h5>
+                    <p>h_min = L/8 à L/6 selon portée</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Armature</h5>
+                    <p>ρ_min = 0.15% nappe sup/inf, ρ_transv = 0.10%</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="progress-container">
+                <h4><i class="fas fa-hard-hat"></i> Exécution - Contraintes Techniques</h4>
+                <div class="progress-step">
+                  <div class="progress-number">1</div>
+                  <div class="progress-content">
+                    <h5>Tracé Précis</h5>
+                    <p>Repérage laser à ±2mm, alignement continu</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">2</div>
+                  <div class="progress-content">
+                    <h5>Compactage Contrôlé</h5>
+                    <p>Vibrations verticales, densité 95% Proctor</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">3</div>
+                  <div class="progress-content">
+                    <h5>Coffrage Linéaire</h5>
+                    <p>Formes modulaires, alignement rigide, étanchéité</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">4</div>
+                  <div class="progress-content">
+                    <h5>Armature Continue</h5>
+                    <p>Barres soudées, recouvrements calculés, espacement</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">5</div>
+                  <div class="progress-content">
+                    <h5>Bétonnage Continu</h5>
+                    <p>Sans interruption, vibration adéquate, joints étanches</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="case-study">
+                <h4><i class="fas fa-flask"></i> Étude de Cas - Semelle Filante de 1.2m×0.4m sur 50m</h4>
+                <p>
+                  <strong>Charges :</strong> q = 200 kN/ml, moment variable<br>
+                  <strong>Sol :</strong> Sable dense (φ' = 35°, γ = 19 kN/m³, k = 80000 kN/m³)<br>
+                  <strong>Calculs :</strong> Moment max = 1200 kNm/ml, flèche max = 8mm
+                </p>
+              </div>
+
+              <div class="advantages">
+                <h4><i class="fas fa-check-circle"></i> Avantages Techniques</h4>
+                <ul>
+                  <li>Excellente répartition des charges linéiques</li>
+                  <li>Économie significative pour bâtiments à murs porteurs</li>
+                  <li>Facilité d'exécution avec coffrage linéaire standard</li>
+                  <li>Adaptation naturelle aux sols stables et homogènes</li>
+                </ul>
+              </div>
+
+              <div class="disadvantages">
+                <h4><i class="fas fa-times-circle"></i> Limitations Techniques</h4>
+                <ul>
+                  <li>Grande sensibilité aux tassements différentiels</li>
+                  <li>Exigence de sol homogène sur toute la longueur</li>
+                  <li>Difficultés de modification après construction</li>
+                  <li>Risque de fissuration par retrait thermique</li>
+                </ul>
+              </div>
+
+              <div class="amazon-section">
+                <a href="https://amzn.to/4lTHVkR" class="amazon-link" target="_blank" rel="noopener">
+                  <i class="fas fa-shopping-cart"></i> Niveau laser 3D LasGoo pour alignement parfait
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RADIERS - ANALYSE TECHNIQUE COMPLÈTE -->
+    <section class="animate-fade-in-up delay-3">
+      <div class="card">
+        <div class="card-header raft">
+          <h3><i class="fas fa-th-large"></i> Radiers - Ingénierie Avancée et Types Spécialisés</h3>
+        </div>
+        <div class="card-body">
+          <p>
+            Le radier général est une dalle continue couvrant toute la surface de l'ouvrage. Utilisé lorsque 
+            les charges sont importantes ou le sol présente une faible capacité portante. La conception 
+            moderne utilise la méthode des éléments finis pour optimiser la distribution des efforts.
+          </p>
+
+          <div class="diagram-container">
+            <h4><i class="fas fa-project-diagram"></i> Modélisation Éléments Finis d'un Radier</h4>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Raft_foundation.png" alt="Radiers généraux">
+            <p>Maillage 3D pour analyse contraintes et déformations</p>
+          </div>
+
+          <!-- RADIERS PLEINS - ANALYSE DÉTAILLÉE -->
+          <div class="foundation-detail">
+            <div class="detail-section">
+              <h4><i class="fas fa-square-full"></i> Radiers Pleins - Conception Avancée</h4>
+              <p>
+                Dalle continue d'épaisseur uniforme sur toute la surface du bâtiment. Le type le plus simple 
+                et le plus courant de radier. La conception moderne utilise la méthode de la grille élastique 
+                ou l'analyse 3D par éléments finis pour optimiser le ferraillage.
+              </p>
+
+              <div class="formula-container">
+                <h4><i class="fas fa-calculator"></i> Méthode de la Grille Élastique - Rigidité Cylindrique</h4>
+                <div class="math-formula">
+                  $$D = \frac{E \cdot h^3}{12(1-\nu^2)}$$
+                </div>
+                <p>
+                  Où : $D$ = rigidité cylindrique, $E$ = module élasticité du béton, $h$ = épaisseur, $\nu$ = coefficient de Poisson
+                </p>
+              </div>
+
+              <div class="tech-specs">
+                <h4><i class="fas fa-cogs"></i> Spécifications Techniques Avancées</h4>
+                <div class="specs-grid">
+                  <div class="spec-item">
+                    <h5>Épaisseur Optimale</h5>
+                    <p>h = 0.3-2.0m selon charges et sol</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Armature Double Nappe</h5>
+                    <p>ρ_min = 0.20% pour FeE400, espacement ≤ 20cm</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Poinçonnement</h5>
+                    <p>Vérification sous poteaux selon EC2-1-1</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Déformations</h5>
+                    <p>Δ_max = 50-100mm selon structure</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="progress-container">
+                <h4><i class="fas fa-hard-hat"></i> Procédé de Construction - Techniques Avancées</h4>
+                <div class="progress-step">
+                  <div class="progress-number">1</div>
+                  <div class="progress-content">
+                    <h5>Terrassement de Précision</h5>
+                    <p>Excavation robotisée, nivellement laser ±2cm, compactage contrôlé</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">2</div>
+                  <div class="progress-content">
+                    <h5>Drainage et Isolation</h5>
+                    <p>Géomembrane, drainage périphérique, protection contre nappe</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">3</div>
+                  <div class="progress-content">
+                    <h5>Armature Préfabriquée</h5>
+                    <p>Mailles soudées, chaises automatiques, positionnement robotisé</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">4</div>
+                  <div class="progress-content">
+                    <h5>Bétonnage en Phases</h5>
+                    <p>Béton pompé auto-plaçant, coulée en secteurs, joints de retrait</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">5</div>
+                  <div class="progress-content">
+                    <h5>Curing Intensif</h5>
+                    <p>Bâches humides, cure chimique, contrôle humidité 7-28 jours</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="case-study">
+                <h4><i class="fas fa-flask"></i> Étude de Cas - Radier de 50m×30m×1.5m</h4>
+                <p>
+                  <strong>Charges :</strong> Pression moyenne = 250 kPa, charges concentrées = 5000 kN<br>
+                  <strong>Sol :</strong> Argile normale (E = 25 MPa, cu = 120 kPa, k = 25000 kN/m³)<br>
+                  <strong>Résultats :</strong> Tassement max = 65mm, moments max = 450 kNm/ml
+                </p>
+              </div>
+
+              <div class="advantages">
+                <h4><i class="fas fa-check-circle"></i> Avantages Techniques Avancés</h4>
+                <ul>
+                  <li>Excellente rigidité globale réduisant tassements différentiels</li>
+                  <li>Capacité portante optimisée par distribution uniforme charges</li>
+                  <li>Adaptation parfaite aux sols très compressibles</li>
+                  <li>Protection intégrée contre soulèvement par nappe</li>
+                </ul>
+              </div>
+
+              <div class="disadvantages">
+                <h4><i class="fas fa-times-circle"></i> Inconvénients Techniques</h4>
+                <ul>
+                  <li>Coût élevé en matériaux et main-d'œuvre</li>
+                  <li>Difficultés d'accès aux réseaux enterrés</li>
+                  <li>Temps de construction important (2-4 semaines)</li>
+                  <li>Risque de retrait thermique dans épaisseurs importantes</li>
+                </ul>
+              </div>
+
+              <div class="amazon-section">
+                <a href="https://amzn.to/3JfVaOg" class="amazon-link" target="_blank" rel="noopener">
+                  <i class="fas fa-shopping-cart"></i> Vibrateur béton IMAYCC pour radier sans bulles d'air
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- RADIERS ALVÉOLAIRES - INGÉNIERIE SPÉCIALISÉE -->
+          <div class="foundation-detail">
+            <div class="detail-section">
+              <h4><i class="fas fa-border-none"></i> Radiers Alvéolaires - Optimisation Avancée</h4>
+              <p>
+                Dalle percée de vides (alvéoles) pour réduire le poids propre tout en conservant la rigidité. 
+                Utilisés pour les bâtiments lourds sur sols moyens. La conception moderne utilise l'analyse 
+                topologique pour optimiser la distribution des matériaux.
+              </p>
+
+              <div class="formula-container">
+                <h4><i class="fas fa-calculator"></i> Optimisation Topologique - Fonction Objectif</h4>
+                <div class="math-formula">
+                  $$min \int_{\Omega} \rho(x)^p C(\varepsilon) d\Omega \quad s.c. \quad K(U) = F$$
+                </div>
+                <p>
+                  Où : $\rho(x)$ = densité relative, $C(\varepsilon)$ = densité d'énergie, $K$ = matrice rigidité, $F$ = forces
+                </p>
+              </div>
+
+              <div class="tech-specs">
+                <h4><i class="fas fa-cogs"></i> Paramètres de Conception Avancée</h4>
+                <div class="specs-grid">
+                  <div class="spec-item">
+                    <h5>Géométrie Optimale</h5>
+                    <p>Alvéoles Ø40-120cm, espacement 1.5-3m, nervures 30-60cm</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Réduction Poids</h5>
+                    <p>30-50% par rapport radier plein</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Rigidité Équivalente</h5>
+                    <p>80-95% radier plein selon optimisation</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Coffrage Spécialisé</h5>
+                    <p>Formes perdues, tubes polymères, démoulage pneumatique</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="progress-container">
+                <h4><i class="fas fa-hard-hat"></i> Techniques de Construction Innovantes</h4>
+                <div class="progress-step">
+                  <div class="progress-number">1</div>
+                  <div class="progress-content">
+                    <h5>Modélisation 3D</h5>
+                    <p>BIM avancé, optimisation topologique, impression 3D maquettes</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">2</div>
+                  <div class="progress-content">
+                    <h5>Coffrage Intelligent</h5>
+                    <p>Formes modulaires auto-portantes, positionnement robotisé</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">3</div>
+                  <div class="progress-content">
+                    <h5>Armature Optimisée</h5>
+                    <p>Calculs éléments finis, ferraillage adaptatif, assemblage automatique</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">4</div>
+                  <div class="progress-content">
+                    <h5>Béton Spécial</h5>
+                    <p>Béton autoplaçant, fibres structurelles, cure accélérée</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">5</div>
+                  <div class="progress-content">
+                    <h5>Contrôle Qualité</h5>
+                    <p>Capteurs intégrés, monitoring temps réel, essais non destructifs</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="case-study">
+                <h4><i class="fas fa-flask"></i> Étude de Cas - Radier Alvéolaire 40m×25m</h4>
+                <p>
+                  <strong>Configuration :</strong> Alvéoles Ø80cm, espacement 2m, nervures 40cm<br>
+                  <strong>Performances :</strong> Poids réduit 40%, rigidité 90% radier plein<br>
+                  <strong>Économie :</strong> Coût 25% inférieur, construction 30% plus rapide
+                </p>
+              </div>
+
+              <div class="advantages">
+                <h4><i class="fas fa-check-circle"></i> Avantages Techniques Innovants</h4>
+                <ul>
+                  <li>Optimisation matériau par réduction poids sans perte performance</li>
+                  <li>Meilleur rapport coût/efficacité par rapport radier plein</li>
+                  <li>Bonne répartition charges avec accessibilité réseaux</li>
+                  <li>Construction durable avec réduction empreinte carbone</li>
+                </ul>
+              </div>
+
+              <div class="disadvantages">
+                <h4><i class="fas fa-times-circle"></i> Défis Techniques</h4>
+                <ul>
+                  <li>Complexité coffrage avec formes perdues ou modulaires</li>
+                  <li>Contrôle qualité difficile dans zones alvéolaires</li>
+                  <li>Calculs structuraux complexes nécessitant logiciels avancés</li>
+                  <li>Coordination exécution délicate entre corps de métier</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- RADIERS NERVURÉS - INGÉNIERIE STRUCTURALE -->
+          <div class="foundation-detail">
+            <div class="detail-section">
+              <h4><i class="fas fa-grip-lines"></i> Radiers Nervurés - Conception Structurale Avancée</h4>
+              <p>
+                Système de poutres en béton armé formant une grille rigide. Permet de concentrer la matière 
+                là où les efforts sont maximums. La conception moderne utilise l'analyse par éléments finis 
+                pour optimiser la géométrie des nervures.
+              </p>
+
+              <div class="formula-container">
+                <h4><i class="fas fa-calculator"></i> Analyse Grille - Matrice de Rigidité</h4>
+                <div class="math-formula">
+                  $$[K] \{U\} = \{F\}$$
+                </div>
+                <p>
+                  Où : $[K]$ = matrice rigidité globale, $\{U\}$ = déplacements nodaux, $\{F\}$ = forces nodales
+                </p>
+              </div>
+
+              <div class="tech-specs">
+                <h4><i class="fas fa-cogs"></i> Paramètres de Conception Structurale</h4>
+                <div class="specs-grid">
+                  <div class="spec-item">
+                    <h5>Nervures Principales</h5>
+                    <p>40-80cm largeur, 60-150cm hauteur, espacement 3-8m</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Nervures Secondaires</h5>
+                    <p>30-50cm largeur, 40-100cm hauteur, espacement 2-5m</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Dalle de Remplissage</h5>
+                    <p>10-30cm épaisseur, armature minimum</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Jonction Nervure-Dalle</h5>
+                    <p>Étude poinçonnement, armature de couture</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="case-study">
+                <h4><i class="fas fa-flask"></i> Étude de Cas - Radier Nervuré 60m×40m</h4>
+                <p>
+                  <strong>Configuration :</strong> Nervures 60cm×120cm espacées 6m, dalle 20cm<br>
+                  <strong>Charges :</strong> Pression moyenne = 300 kPa, charges concentrées = 8000 kN<br>
+                  <strong>Résultats :</strong> Moments max = 800 kNm/ml, déformation max = 45mm
+                </p>
+              </div>
+
+              <div class="advantages">
+                <h4><i class="fas fa-check-circle"></i> Avantages Structuraux</h4>
+                <ul>
+                  <li>Optimisation matériaux par concentration efforts dans nervures</li>
+                  <li>Grande portée possible sans appuis intermédiaires</li>
+                  <li>Accès facilité aux réseaux par espaces entre nervures</li>
+                  <li>Adaptabilité aux charges concentrées variables</li>
+                </ul>
+              </div>
+
+              <div class="disadvantages">
+                <h4><i class="fas fa-times-circle"></i> Complexités Techniques</h4>
+                <ul>
+                  <li>Coffrage complexe nécessitant formes modulaires spécialisées</li>
+                  <li>Calculs structuraux avancés par éléments finis</li>
+                  <li>Exécution délicate des jonctions nervure-dalle</li>
+                  <li>Coordination exécution multi-corps de métier</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- RADIERS À POINÇONNEMENT - CONCEPTION SPÉCIALISÉE -->
+          <div class="foundation-detail">
+            <div class="detail-section">
+              <h4><i class="fas fa-expand-arrows-alt"></i> Radiers à Poinçonnement - Conception Spécialisée</h4>
+              <p>
+                Radiers spécialement renforcés sous poteaux pour résister aux efforts de poinçonnement. 
+                Utilisés pour les charges concentrées importantes. La conception moderne utilise l'analyse 
+                non linéaire pour prédire le comportement jusqu'à la rupture.
+              </p>
+
+              <div class="formula-container">
+                <h4><i class="fas fa-calculator"></i> Vérification Poinçonnement - Eurocode 2</h4>
+                <div class="math-formula">
+                  $$V_{Ed} \leq V_{Rd,c} = C_{Rd,c} \cdot k \cdot (100 \cdot \rho_l \cdot f_{ck})^{1/3} \cdot b_w \cdot d$$
+                </div>
+                <p>
+                  Où : $V_{Ed}$ = effort tranchant de calcul, $C_{Rd,c}$ = coefficient, $k$ = facteur géométrique
+                </p>
+              </div>
+
+              <div class="tech-specs">
+                <h4><i class="fas fa-cogs"></i> Renforts Spécialisés</h4>
+                <div class="specs-grid">
+                  <div class="spec-item">
+                    <h5>Étriers Verticaux</h5>
+                    <p>Ø12-20mm, espacement 5-15cm, dans périmètre critique</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Armature Supérieure</h5>
+                    <p>Boucles de couture, ancrage 40Ø, espacement 10-20cm</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Épaississement Local</h5>
+                    <p>20-50cm sous poteaux critiques, forme tronconique</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Matériaux Spéciaux</h5>
+                    <p>Béton HPC, fibres structurelles, acier haute adhérence</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="amazon-section">
+                <a href="https://amzn.to/4lTHVkR" class="amazon-link" target="_blank" rel="noopener">
+                  <i class="fas fa-shopping-cart"></i> Niveau laser 3D LasGoo pour contrôle géométrique
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FONDATIONS PROFONDES - ANALYSE TECHNIQUE AVANCÉE -->
+    <section class="animate-fade-in-up delay-4">
+      <div class="card">
+        <div class="card-header deep">
+          <h3><i class="fas fa-water"></i> Fondations Profondes - Ingénierie Avancée</h3>
+        </div>
+        <div class="card-body">
+          <p>
+            Transmettent les charges à de grandes profondeurs par frottement latéral et/ou portance en pointe. 
+            Utilisées lorsque les couches superficielles sont insuffisantes. La conception moderne utilise 
+            l'analyse statique et dynamique pour optimiser la capacité portante.
+          </p>
+
+          <div class="diagram-container">
+            <h4><i class="fas fa-project-diagram"></i> Mécanismes de Transfert des Charges</h4>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d8/Deep_foundation_diagram.png" alt="Fondations profondes">
+            <p>Frottement latéral (70-90%) + Portance pointe (10-30%)</p>
+          </div>
+
+          <!-- PIEUX FORÉS - INGÉNIERIE SPÉCIALISÉE -->
+          <div class="foundation-detail">
+            <div class="detail-section">
+              <h4><i class="fas fa-circle-notch"></i> Pieux Forés - Technologie Avancée</h4>
+              <p>
+                Réalisés par excavation mécanique suivie de coulage de béton. Adaptés aux sols variés et 
+                permettent des diamètres importants. La technologie moderne utilise des boues spéciales 
+                et des systèmes de contrôle en temps réel.
+              </p>
+
+              <div class="formula-container">
+                <h4><i class="fas fa-calculator"></i> Capacité Portante - Méthode de Vesic</h4>
+                <div class="math-formula">
+                  $$Q_u = A_p \cdot q_p + \sum_{i=1}^{n} (K_i \cdot \sigma'_{vi} \cdot \tan \delta_i \cdot p_i \cdot \Delta L_i)$$
+                </div>
+                <p>
+                  Où : $A_p$ = section pointe, $q_p$ = contrainte pointe, $K_i$ = coefficient terre pression
+                </p>
+              </div>
+
+              <div class="tech-specs">
+                <h4><i class="fas fa-cogs"></i> Paramètres Techniques Avancés</h4>
+                <div class="specs-grid">
+                  <div class="spec-item">
+                    <h5>Géométrie Optimale</h5>
+                    <p>Ø30-200cm, L = 5-100m, L/D = 10-50</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Boues Spécialisées</h5>
+                    <p>Bentonite polymère, densité 1.05-1.20, viscosité 20-40 s</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Béton Spécial</h5>
+                    <p>Auto-plaçant, Rck = 30-50 MPa, tremie Ø20-30cm</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Contrôle Qualité</h5>
+                    <p>Sonification, chargement d'essai, monitoring temps réel</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="progress-container">
+                <h4><i class="fas fa-hard-hat"></i> Technologie de Pointe - Forage Contrôlé</h4>
+                <div class="progress-step">
+                  <div class="progress-number">1</div>
+                  <div class="progress-content">
+                    <h5>Forage Intelligente</h5>
+                    <p>Turbine dirigée, navigation magnétique, contrôle inclinaison 0.1°</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">2</div>
+                  <div class="progress-content">
+                    <h5>Stabilisation Avancée</h5>
+                    <p>Boue polymère recyclable, injection continue, pression contrôlée</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">3</div>
+                  <div class="progress-content">
+                    <h5>Descente Robotisée</h5>
+                    <p>Cageot modulaire, centrage automatique, vitesse contrôlée</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">4</div>
+                  <div class="progress-content">
+                    <h5>Bétonnage Intelligente</h5>
+                    <p>Tremie automatisée, débit contrôlé, niveau continu</p>
+                  </div>
+                </div>
+                <div class="progress-step">
+                  <div class="progress-number">5</div>
+                  <div class="progress-content">
+                    <h5>Monitoring Avancé</h5>
+                    <p>Capteurs intégrés, données temps réel, rapport automatique</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="case-study">
+                <h4><i class="fas fa-flask"></i> Étude de Cas - Pieux Forés Ø120cm L=45m</h4>
+                <p>
+                  <strong>Sol :</strong> 15m sable + 30m argile normale (cu = 150 kPa)<br>
+                  <strong>Capacité :</strong> Qp = 1800 kN, Qs = 3200 kN, Qu = 5000 kN<br>
+                  <strong>Contrôle :</strong> Sonification OK, essai charge = 4500 kN
+                </p>
+              </div>
+
+              <div class="advantages">
+                <h4><i class="fas fa-check-circle"></i> Avantages Technologiques</h4>
+                <ul>
+                  <li>Capacité portante exceptionnelle jusqu'à 10000 kN</li>
+                  <li>Adaptation parfaite aux sols complexes et hétérogènes</li>
+                  <li>Stabilité optimale contre forces horizontales dynamiques</li>
+                  <li>Technologie verte avec recyclage boues et matériaux</li>
+                </ul>
+              </div>
+
+              <div class="disadvantages">
+                <h4><i class="fas fa-times-circle"></i> Défis Techniques Avancés</h4>
+                <ul>
+                  <li>Coût très élevé (1000-3000 €/ml selon conditions)</li>
+                  <li>Technicité exécution nécessitant équipe spécialisée</li>
+                  <li>Contrôle qualité complexe avec équipements sophistiqués</li>
+                  <li>Impact environnemental local pendant forage intensif</li>
+                </ul>
+              </div>
+
+              <div class="amazon-section">
+                <a href="https://amzn.to/3JfVaOg" class="amazon-link" target="_blank" rel="noopener">
+                  <i class="fas fa-shopping-cart"></i> Vibrateur béton IMAYCC pour contrôle qualité
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- PIEUX BATTUS - TECHNOLOGIE MODERNE -->
+          <div class="foundation-detail">
+            <div class="detail-section">
+              <h4><i class="fas fa-gavel"></i> Pieux Battus - Innovation Technologique</h4>
+              <p>
+                Enfoncés dans le sol par percussion. Peuvent être en béton préfabriqué, acier ou bois selon 
+                les conditions du site. La technologie moderne utilise des marteaux hydrauliques et des 
+                systèmes de monitoring en temps réel.
+              </p>
+
+              <div class="formula-container">
+                <h4><i class="fas fa-calculator"></i> Formule de Gates Modifiée</h4>
+                <div class="math-formula">
+                  $$Q_u = \frac{\eta \cdot W \cdot H \cdot N}{S + C \cdot (W + W_p)}$$
+                </div>
+                <p>
+                  Où : $\eta$ = rendement, $W$ = poids masse, $H$ = hauteur chute, $N$ = nb coups
+                </p>
+              </div>
+
+              <div class="tech-specs">
+                <h4><i class="fas fa-cogs"></i> Paramètres Technologiques</h4>
+                <div class="specs-grid">
+                  <div class="spec-item">
+                    <h5>Marteaux Modernes</h5>
+                    <p>Hydrauliques 500-5000 kJ, diesel 1000-3000 kJ, vibrants</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Monitoring</h5>
+                    <p>Pile Driving Analyzer, CAPWAP, statnamic</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Matériaux</h5>
+                    <p>Béton HP (C50/60), acier HEB, bois traité classe 1</p>
+                  </div>
+                  <div class="spec-item">
+                    <h5>Contrôle</h5>
+                    <p>Refus < 2mm/10 coups, SET < 10 mm, intégrité 100%</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="case-study">
+                <h4><i class="fas fa-flask"></i> Étude de Cas - Pieux Battus 400×400 L=25m</h4>
+                <p>
+                  <strong>Matériau :</strong> Béton précontraint C50/60, armature minimum<br>
+                  <strong>Battage :</strong> Marteau 2500 kJ, refus = 1.5mm/10 coups<br>
+                  <strong>Capacité :</strong> Qu = 3200 kN, essai statique = 3000 kN
+                </p>
+              </div>
+
+              <div class="advantages">
+                <h4><i class="fas fa-check-circle"></i> Avantages Technologiques</h4>
+                <ul>
+                  <li>Installation rapide avec productivité 50-100 pieux/semaine</li>
+                  <li>Excellente résistance dynamique aux charges sismiques</li>
+                  <li>Adaptation optimale aux sols denses et rocheux</li>
+                  <li>Possibilité de réutilisation (acier) et recyclage</li>
+                </ul>
+              </div>
+
+              <div class="disadvantages">
+                <h4><i class="fas fa-times-circle"></i> Contraintes Techniques</h4>
+                <ul>
+                  <li>Bruit et vibrations significatifs (100-130 dB à 10m)</li>
+                  <li>Limitations dans sols très denses (>200 SPT)</li>
+                  <li>Contrôle qualité complexe nécessitant expertise dynamique</li>
+                  <li>Restrictions réglementaires en zones urbaines sensibles</li>
+                </ul>
+              </div>
+
+              <div class="amazon-section">
+                <a href="https://amzn.to/4lTHVkR" class="amazon-link" target="_blank" rel="noopener">
+                  <i class="fas fa-shopping-cart"></i> Niveau laser 3D LasGoo pour contrôle verticalité
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAS D'EFFONDREMENT - LEÇONS CRITIQUES -->
+    <section class="animate-fade-in-up delay-5">
+      <div class="card">
+        <div class="card-header failure">
+          <h3><i class="fas fa-skull"></i> Cas d'Effondrement - Leçons Critiques de Mauvais Choix de Fondations</h3>
+        </div>
+        <div class="card-body">
+          <p>
+            L'histoire du génie civil est parsemée de catastrophes structurelles dues à de mauvais choix 
+            de fondations. Ces cas tragiques soulignent l'importance critique d'une étude géotechnique 
+            approfondie et d'une conception rigoureuse des systèmes de fondations.
+          </p>
+
+          <div class="warning-box">
+            <h4><i class="fas fa-exclamation-triangle"></i> Avertissement Important</h4>
+            <p>
+              Ces exemples servent de leçons pour améliorer la sécurité et la qualité de l'ingénierie des fondations. 
+              Chaque effondrement représente des vies perdues et des pertes économiques colossales qui auraient 
+              pu être évitées par une approche professionnelle rigoureuse.
+            </p>
+          </div>
+
+          <div class="failure-grid">
+            <!-- LEAN-TO GÉANT -->
+            <div class="failure-card">
+              <div class="failure-image">
+                <i class="fas fa-warehouse"></i>
+              </div>
+              <div class="failure-content">
+                <h4>Lean-To Géant - Sydney, Australie (1968)</h4>
+                <p>
+                  Hangar industriel de 12 000 m² s'est effondré pendant la construction, tuant 11 ouvriers. 
+                  La cause principale était une fondation inadaptée sur sol argileux instable.
+                </p>
+                
+                <div class="failure-cause">
+                  <h5><i class="fas fa-bug"></i> Cause Technique</h5>
+                  <p>
+                    Semelles superficielles sur argile molle (cu = 25 kPa) sans étude géotechnique. 
+                    Charge admissible calculée à 150 kPa alors que sol ne supportait que 50 kPa. 
+                    Tassement différentiel de 1.2m a provoqué l'effondrement progressif.
+                  </p>
+                </div>
+
+                <div class="case-study">
+                  <h5><i class="fas fa-lightbulb"></i> Leçon Apprise</h5>
+                  <p>
+                    Obligation d'étude géotechnique approfondie avant tout projet. 
+                    Utilisation de radiers ou pieux dans sols compressibles. 
+                    Contrôle des tassements différentiels par instrumentation.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- HOTEL NEW WORLD -->
+            <div class="failure-card">
+              <div class="failure-image">
+                <i class="fas fa-hotel"></i>
+              </div>
+              <div class="failure-content">
+                <h4>Hôtel New World - Singapour (1986)</h4>
+                <p>
+                  Effondrement partiel de 15 étages tuant 33 personnes. L'une des plus grandes catastrophes 
+                  structurelles de l'histoire moderne d'Asie du Sud-Est.
+                </p>
+                
+                <div class="failure-cause">
+                  <h5><i class="fas fa-bug"></i> Cause Technique</h5>
+                  <p>
+                    Fondations sur semelles superficielles à seulement 1.5m de profondeur dans sol sablonneux. 
+                    Modifications non autorisées de la structure sans réévaluation des fondations. 
+                    Charge concentrée excessive sur poteaux critiques a dépassé capacité portante.
+                  </p>
+                </div>
+
+                <div class="case-study">
+                  <h5><i class="fas fa-lightbulb"></i> Leçon Apprise</h5>
+                  <p>
+                    Interdiction des modifications structurelles sans révision complète. 
+                    Obligation de fondations profondes dans sols instables. 
+                    Contrôles qualité rigoureux pendant construction.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- COLLAPSE DE RANA PLAZA -->
+            <div class="failure-card">
+              <div class="failure-image">
+                <i class="fas fa-industry"></i>
+              </div>
+              <div class="failure-content">
+                <h4>Rana Plaza - Bangladesh (2013)</h4>
+                <p>
+                  Effondrement de 8 étages tuant 1134 personnes, blessant 2500. 
+                  L'une des pires catastrophes industrielles de l'histoire moderne.
+                </p>
+                
+                <div class="failure-cause">
+                  <h5><i class="fas fa-bug"></i> Cause Technique</h5>
+                  <p>
+                    Fondations sur semelles de 1m de profondeur dans sol argileux. 
+                    Ajout illégal de 3 étages sans réévaluation structurelle. 
+                    Fissures visibles le matin même ignorées par gestionnaires. 
+                    Charges dépassant capacité portante de 300%.
+                  </p>
+                </div>
+
+                <div class="case-study">
+                  <h5><i class="fas fa-lightbulb"></i> Leçon Apprise</h5>
+                  <p>
+                    Obligation de permis de construction et inspections régulières. 
+                    Interdiction d'ajouts structurels sans expertise qualifiée. 
+                    Formation obligatoire des ouvriers sur signaux d'alerte. 
+                    Responsabilité pénale des promoteurs irresponsables.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- COLLAPSE DE HARD ROCK HOTEL -->
+            <div class="failure-card">
+              <div class="failure-image">
+                <i class="fas fa-hotel"></i>
+              </div>
+              <div class="failure-content">
+                <h4>Hard Rock Hotel - La Nouvelle-Orléans (2019)</h4>
+                <p>
+                  Effondrement partiel d'un hôtel en construction tuant 3 personnes et en blessant 27. 
+                  Survenu pendant les travaux de construction d'un bâtiment de 16 étages.
+                </p>
+                
+                <div class="failure-cause">
+                  <h5><i class="fas fa-bug"></i> Cause Technique</h5>
+                  <p>
+                    Problèmes de fondation sur sol alluvial instable du Mississippi. 
+                    Excavation de 6m sans soutènement adéquat. 
+                    Pression hydrostatique de la nappe non prise en compte. 
+                    Défaillance progressive du système de fondation.
+                  </p>
+                </div>
+
+                <div class="case-study">
+                  <h5><i class="fas fa-lightbulb"></i> Leçon Apprise</h5>
+                  <p>
+                    Études hydrogéologiques obligatoires en zones alluviales. 
+                    Soutènement d'excavations profondes par parois moulées. 
+                    Monitoring en temps réel des déplacements. 
+                    Coordination rigoureuse entre spécialités.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- COLLAPSE DE CHAMPERRET BUILDING -->
+            <div class="failure-card">
+              <div class="failure-image">
+                <i class="fas fa-building"></i>
+              </div>
+              <div class="failure-content">
+                <h4>Bâtiment Champerret - Paris (1964)</h4>
+                <p>
+                  Effondrement d'un immeuble de 10 étages tuant 11 personnes. 
+                  Premier grand effondrement dû à des fondations inadaptées en France.
+                </p>
+                
+                <div class="failure-cause">
+                  <h5><i class="fas fa-bug"></i> Cause Technique</h5>
+                  <p>
+                    Semelles superficielles à 2m de profondeur dans argile molle de Lutétien. 
+                    Tassements différentiels de 40cm entre façades opposées. 
+                    Fissuration progressive des poteaux en béton armé. 
+                    Rupture fragile par poinçonnement des semelles.
+                  </p>
+                </div>
+
+                <div class="case-study">
+                  <h5><i class="fas fa-lightbulb"></i> Leçon Apprise</h5>
+                  <p>
+                    Obligation de radiers dans sols argileux de Paris. 
+                    Calcul des tassements différentiels par méthode oedométrique. 
+                    Surveillance des fissures pendant construction. 
+                    Respect des règles PS-MI (1962) de génie parasismique.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- COLLAPSE DE SAVAR BUILDING -->
+            <div class="failure-card">
+              <div class="failure-image">
+                <i class="fas fa-industry"></i>
+              </div>
+              <div class="failure-content">
+                <h4>Bâtiment Savar - Bangladesh (2013)</h4>
+                <p>
+                  Effondrement d'une usine textile tuant 1129 ouvriers. 
+                  Lié à des fondations inadaptées et à des surcharges structurelles.
+                </p>
+                
+                <div class="failure-cause">
+                  <h5><i class="fas fa-bug"></i> Cause Technique</h5>
+                  <p>
+                    Fondations sur semelles de 1.2m dans sol limoneux compressible. 
+                    Ajout illégal de machines lourdes sans révision structurelle. 
+                    Tassements différentiels de 30cm provoquant fissures structurelles. 
+                    Rupture progressive par instabilité globale.
+                  </p>
+                </div>
+
+                <div class="case-study">
+                  <h5><i class="fas fa-lightbulb"></i> Leçon Apprise</h5>
+                  <p>
+                    Contrôles obligatoires des bâtiments industriels. 
+                    Études géotechniques pour charges dynamiques. 
+                    Limitation des surcharges sans autorisation. 
+                    Formation des inspecteurs de sécurité.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- COLLAPSE DE WILDFIRE RESORT -->
+            <div class="failure-card">
+              <div class="failure-image">
+                <i class="fas fa-mountain"></i>
+              </div>
+              <div class="failure-content">
+                <h4>Wildfire Resort - Colorado (2021)</h4>
+                <p>
+                    Effondrement d'un chalet de luxe pendant construction, blessant 4 ouvriers. 
+                    Survenu dans une zone de sols expansifs et sismique active.
+                </p>
+                
+                <div class="failure-cause">
+                  <h5><i class="fas fa-bug"></i> Cause Technique</h5>
+                  <p>
+                    Semelles superficielles sur argile expansive sans protection. 
+                    Variation d'humidité de 30% provoquant gonflement/dessiccation. 
+                    Charges concentrées sur poteaux sans vérification des fondations. 
+                    Absence de joints de dilatation pour mouvements différentiels.
+                  </p>
+                </div>
+
+                <div class="case-study">
+                  <h5><i class="fas fa-lightbulb"></i> Leçon Apprise</h5>
+                  <p>
+                    Utilisation de radiers sur sols expansifs avec membrane anti-retrait. 
+                    Systèmes de drainage périmétrique obligatoires. 
+                    Joints de dilatation tous les 20m maximum. 
+                    Études de retrait/gonflement selon ASTM D5230.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- COLLAPSE DE FLORIDA CONDO -->
+            <div class="failure-card">
+              <div class="failure-image">
+                <i class="fas fa-building"></i>
+              </div>
+              <div class="failure-content">
+                <h4>Champlain Towers South - Surfside, Floride (2021)</h4>
+                <p>
+                  Effondrement progressif d'un immeuble de 12 étages tuant 98 personnes. 
+                  L'une des pires catastrophes structurelles des États-Unis modernes.
+                </p>
+                
+                <div class="failure-cause">
+                  <h5><i class="fas fa-bug"></i> Cause Technique</h5>
+                  <p>
+                    Fondations sur radier de 1.8m d'épaisseur dans sol calcaire karstique. 
+                    Corrosion galvanique des armatures par eau de mer. 
+                    Tassements différentiels de 15cm provoquant fissures structurelles. 
+                    Rupture progressive par instabilité globale après 40 ans.
+                  </p>
+                </div>
+
+                <div class="case-study">
+                  <h5><i class="fas fa-lightbulb"></i> Leçon Apprise</h5>
+                  <p>
+                    Protection cathodique obligatoire en zones marines. 
+                    Inspections structurelles tous les 10 ans pour bâtiments >30 ans. 
+                    Études géotechniques approfondies en zones karstiques. 
+                    Surveillance des fissures par capteurs intelligents.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="highlight-box">
+            <h4><i class="fas fa-chart-line"></i> Statistiques des Effondrements liés aux Fondations</h4>
+            <div class="specs-grid">
+              <div class="spec-item">
+                <h5>Causes Principales</h5>
+                <p>65% mauvais choix fondations, 25% corrosion, 10% surcharges</p>
+              </div>
+              <div class="spec-item">
+                <h5>Période Critique</h5>
+                <p>40% pendant construction, 35% après 20-40 ans, 25% immédiat</p>
+              </div>
+              <div class="spec-item">
+                <h5>Victimes Moyennes</h5>
+                <p>15-1200 personnes selon taille structure</p>
+              </div>
+              <div class="spec-item">
+                <h5>Coûts Économiques</h5>
+                <p>10-5000 millions € selon projet et responsabilités</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="warning-box">
+            <h4><i class="fas fa-shield-alt"></i> Recommandations de Sécurité Critiques</h4>
+            <ul>
+              <li><strong>Étude géotechnique approfondie</strong> : Forages, essais in-situ, analyses laboratoire</li>
+              <li><strong>Conception par ingénieur qualifié</strong> : Calculs Eurocode 7, vérifications multiples</li>
+              <li><strong>Contrôle qualité exécution</strong> : Suivi chantier, essais matériaux, inspections</li>
+              <li><strong>Monitoring en service</strong> : Capteurs de déformation, relevés périodiques</li>
+              <li><strong>Maintenance préventive</strong> : Inspections régulières, réparations programmées</li>
+              <li><strong>Formation continue</strong> : Mise à jour normes, nouvelles technologies, retour d'expérience</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRANDES STRUCTURES MONDIALES -->
+    <section class="animate-fade-in-up delay-6">
+      <div class="card">
+        <div class="card-header world">
+          <h3><i class="fas fa-globe-americas"></i> Fondations des Grandes Structures Mondiales</h3>
+        </div>
+        <div class="card-body">
+          <p>
+            Les plus grandes structures du monde reposent sur des systèmes de fondations innovants et 
+            techniquement avancés. Ces réalisations représentent l'apogée de l'ingénierie géotechnique 
+            moderne, combinant recherche, technologie de pointe et expertise pratique.
+          </p>
+
+          <div class="world-structures-grid">
+            <!-- BURJ KHALIFA -->
+            <div class="structure-card">
+              <div class="structure-image">
+                <i class="fas fa-city"></i>
+              </div>
+              <div class="structure-content">
+                <h4>Burj Khalifa - Dubaï</h4>
+                <p>
+                  Le plus haut bâtiment du monde (828m) repose sur un radier de 3.7m d'épaisseur 
+                  couvrant 8000 m². Le système combine béton haute performance et renforts spéciaux.
+                </p>
+                <div class="structure-stats">
+                  <div class="stat-item">
+                    <div class="stat-value">3.7m</div>
+                    <div class="stat-label">Épaisseur radier</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">45,000</div>
+                    <div class="stat-label">m³ béton</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">5,000</div>
+                    <div class="stat-label">tonnes acier</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">190</div>
+                    <div class="stat-label">pieux bored</div>
+                  </div>
+                </div>
+                <div class="case-study">
+                  <h4><i class="fas fa-microscope"></i> Innovation Technique</h4>
+                  <p>
+                    Radier en béton HPC (C60/75) avec fibres, pieux de 1.5m de diamètre à 50m de profondeur. 
+                    Système de monitoring en temps réel des tassements.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAIPEI 101 -->
+            <div class="structure-card">
+              <div class="structure-image">
+                <i class="fas fa-building"></i>
+              </div>
+              <div class="structure-content">
+                <h4>Taipei 101 - Taïwan</h4>
+                <p>
+                  Gratte-ciel de 508m utilisant un système de fondations profondes pour résister 
+                  aux séismes fréquents et aux typhons de la région.
+                </p>
+                <div class="structure-stats">
+                  <div class="stat-item">
+                    <div class="stat-value">1.5m</div>
+                    <div class="stat-label">Diamètre pieux</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">80</div>
+                    <div class="stat-label">Pieux forés</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">1000</div>
+                    <div class="stat-label">Tonnnes radier</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">800</div>
+                    <div class="stat-label">mm tassement</div>
+                  </div>
+                </div>
+                <div class="case-study">
+                  <h4><i class="fas fa-microscope"></i> Résistance Sismique</h4>
+                  <p>
+                    Pieux en béton précontrait jusqu'à 80m de profondeur dans grès et schiste. 
+                    Système d'amortissement massif de 660 tonnes.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- PETRONAS TOWERS -->
+            <div class="structure-card">
+              <div class="structure-image">
+                <i class="fas fa-landmark"></i>
+              </div>
+              <div class="structure-content">
+                <h4>Petronas Towers - Kuala Lumpur</h4>
+                <p>
+                  Jumeaux de 452m reposant sur un système de fondations combinant radier et pieux 
+                  pour résister aux conditions géotechniques complexes de la région.
+                </p>
+                <div class="structure-stats">
+                  <div class="stat-item">
+                    <div class="stat-value">4.5m</div>
+                    <div class="stat-label">Épaisseur radier</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">104</div>
+                    <div class="stat-label">Pieux</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">13,000</div>
+                    <div class="stat-label">m³ béton</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">200</div>
+                    <div class="stat-label">MPa résistance</div>
+                  </div>
+                </div>
+                <div class="case-study">
+                  <h4><i class="fas fa-microscope"></i> Défi Géotechnique</h4>
+                  <p>
+                    Sol argileux compressible jusqu'à 70m de profondeur. Système de 104 pieux de 1.5m 
+                    de diamètre jusqu'à 80m de profondeur dans roche calcaire.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- EIFFEL TOWER -->
+            <div class="structure-card">
+              <div class="structure-image">
+                <i class="fas fa-tower-broadcast"></i>
+              </div>
+              <div class="structure-content">
+                <h4>Tour Eiffel - Paris</h4>
+                <p>
+                  Monument de 330m reposant sur des fondations innovantes pour 1889, utilisant 
+                  des semelles massives en béton armé coulées directement sur le sol.
+                </p>
+                <div class="structure-stats">
+                  <div class="stat-item">
+                    <div class="stat-value">7m</div>
+                    <div class="stat-label">Profondeur</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">4x12m</div>
+                    <div class="stat-label">Semelles</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">10,100</div>
+                    <div class="stat-label">tonnes fer</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">1887</div>
+                    <div class="stat-label">Construction</div>
+                  </div>
+                </div>
+                <div class="case-study">
+                  <h4><i class="fas fa-microscope"></i> Innovation Historique</h4>
+                  <p>
+                    Première utilisation large de béton armé pour fondations monumentales. 
+                    Semelles conçues par Gustave Eiffel avec calculs précis de répartition des charges.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- GOLDEN GATE BRIDGE -->
+            <div class="structure-card">
+              <div class="structure-image">
+                <i class="fas fa-bridge"></i>
+              </div>
+              <div class="structure-content">
+                <h4>Golden Gate Bridge - San Francisco</h4>
+                <p>
+                  Pont suspendu de 2.7km utilisant des fondations marines profondes pour résister 
+                  aux courants violents et aux séismes de la région sismique active.
+                </p>
+                <div class="structure-stats">
+                  <div class="stat-item">
+                    <div class="stat-value">33m</div>
+                    <div class="stat-label">Profondeur pieux</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">28</div>
+                    <div class="stat-label">Pieux acier</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">750,000</div>
+                    <div class="stat-label">rivets</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">1937</div>
+                    <div class="stat-label">Inauguration</div>
+                  </div>
+                </div>
+                <div class="case-study">
+                  <h4><i class="fas fa-microscope"></i> Défi Marin</h4>
+                  <p>
+                    Pieux en acier fondu de 280mm de diamètre enfoncés dans le roc marin. 
+                    Travaux en mer avec courants de 10 km/h et profondeurs de 30m.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- CHANNEL TUNNEL -->
+            <div class="structure-card">
+              <div class="structure-image">
+                <i class="fas fa-train"></i>
+              </div>
+              <div class="structure-content">
+                <h4>Channel Tunnel - UK/France</h4>
+                <p>
+                  Tunnel ferroviaire de 50km sous la Manche, nécessitant des fondations spéciales 
+                  pour les stations et puits d'accès dans conditions géotechniques marines extrêmes.
+                </p>
+                <div class="structure-stats">
+                  <div class="stat-item">
+                    <div class="stat-value">50km</div>
+                    <div class="stat-label">Longueur</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">75m</div>
+                    <div class="stat-label">Sous eau</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">15,000</div>
+                    <div class="stat-label">tonnes béton</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">1994</div>
+                    <div class="stat-label">Ouverture</div>
+                  </div>
+                </div>
+                <div class="case-study">
+                  <h4><i class="fas fa-microscope"></i> Ingénierie Souterraine</h4>
+                  <p>
+                    Stations en excavation souterraine avec soutènement par clous de 20m de longueur. 
+                    Fondations spéciales pour résister à pression eau de mer et tassements.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- MILLAU VIADUCT -->
+            <div class="structure-card">
+              <div class="structure-image">
+                <i class="fas fa-mountain"></i>
+              </div>
+              <div class="structure-content">
+                <h4>Viaduc de Millau - France</h4>
+                <p>
+                  Pont le plus haut du monde (343m) reposant sur des fondations profondes dans 
+                  calcaire karstique avec cavités naturelles et conditions géologiques complexes.
+                </p>
+                <div class="structure-stats">
+                  <div class="stat-item">
+                    <div class="stat-value">245m</div>
+                    <div class="stat-label">Pieux max</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">155m</div>
+                    <div class="stat-label">Hauteur pylônes</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">270,000</div>
+                    <div class="stat-label">tonnes béton</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">2004</div>
+                    <div class="stat-label">Inauguration</div>
+                  </div>
+                </div>
+                <div class="case-study">
+                  <h4><i class="fas fa-microscope"></i> Défi Karstique</h4>
+                  <p>
+                    Reconnaissance géotechnique intensive avec 5000m de forages. Système de 127 pieux 
+                    jusqu'à 245m de profondeur dans calcaire avec monitoring des cavités.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- THREE GORGES DAM -->
+            <div class="structure-card">
+              <div class="structure-image">
+                <i class="fas fa-water"></i>
+              </div>
+              <div class="structure-content">
+                <h4>Barrage des Trois Gorges - Chine</h4>
+                <p>
+                  Plus grand barrage hydroélectrique du monde (2335m longueur) nécessitant des 
+                  fondations massives dans conditions géotechniques fluviales extrêmes.
+                </p>
+                <div class="structure-stats">
+                  <div class="stat-item">
+                    <div class="stat-value">185m</div>
+                    <div class="stat-label">Hauteur</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">115m</div>
+                    <div class="stat-label">Épaisseur base</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">28,000</div>
+                    <div class="stat-label">m³ béton</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value">2006</div>
+                    <div class="stat-label">Complété</div>
+                  </div>
+                </div>
+                <div class="case-study">
+                  <h4><i class="fas fa-microscope"></i> Défi Hydraulique</h4>
+                  <p>
+                    Fondations dans roche gréseuse avec pressions d'eau de 100m. Système de drainage 
+                    et injection profonde de 80m pour assurer étanchéité et stabilité.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="highlight-box">
+            <h4><i class="fas fa-lightbulb"></i> Leçons Techniques des Grandes Réalisations</h4>
+            <ul>
+              <li><strong>Innovation continue</strong> : Chaque projet pousse les limites techniques existantes</li>
+              <li><strong>Recherche géotechnique intensive</strong> : Reconnaissance approfondie avant conception</li>
+              <li><strong>Technologie de monitoring</strong> : Contrôle en temps réel des performances</li>
+              <li><strong>Collaboration internationale</strong> : Expertise mondiale pour défis uniques</li>
+              <li><strong>Durabilité à long terme</strong> : Conception pour 100-200 ans de service</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCLUSION TECHNIQUE -->
+    <section class="animate-fade-in-up delay-7">
+      <div class="conclusion">
+        <h2><i class="fas fa-clipboard-check"></i> Conclusion et Perspectives Futures</h2>
+        <p>
+          L'ingénierie des fondations représente un domaine en constante évolution, combinant recherche 
+          fondamentale, innovation technologique et expertise pratique. Les réalisations mondiales 
+          démontrent que les limites techniques sont constamment repoussées.
+        </p>
+        
+        <div class="tech-specs">
+          <h4><i class="fas fa-rocket"></i> Tendances Futures de l'Ingénierie des Fondations</h4>
+          <div class="specs-grid">
+            <div class="spec-item">
+              <h5>Intelligence Artificielle</h5>
+              <p>IA pour optimisation conception et prédiction comportement</p>
+            </div>
+            <div class="spec-item">
+              <h5>Matériaux Avancés</h5>
+              <p>Bétons ultra-hauteprestations, composites, matériaux intelligents</p>
+            </div>
+            <div class="spec-item">
+              <h5>Robotique</h5>
+              <p>Construction automatisée, inspection robotisée, maintenance prédictive</p>
+            </div>
+            <div class="spec-item">
+              <h5>Durabilité</h5>
+              <p>Fondations circulaires, réduction empreinte carbone, recyclage</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          <h4><i class="fas fa-exclamation-triangle"></i> Recommandations Professionnelles</h4>
+          <ul>
+            <li><strong>Formation continue</strong> : Suivre évolution normes Eurocodes et technologies</li>
+            <li><strong>Recherche géotechnique</strong> : Investir dans études approfondies avant conception</li>
+            <li><strong>Collaboration</strong> : Travailler avec géotechniciens, structures, environnement</li>
+            <li><strong>Innovation</strong> : Adopter nouvelles technologies et méthodes de construction</li>
+            <li><strong>Sécurité</strong> : Priorité absolue sur sécurité des personnes et structures</li>
+          </ul>
+        </div>
+
+        <div class="warning-box">
+          <h4><i class="fas fa-shield-alt"></i> Rappel de Sécurité Critique</h4>
+          <p style="text-align: center; font-size: 1.1rem; margin-top: 1rem;">
+            <strong>Consultez toujours un ingénieur géotechnicien qualifié pour vos projets de fondation.</strong><br>
+            Les cas d'effondrement présentés montrent que les erreurs de fondation peuvent être FATALES.<br>
+            Ce guide est à but éducatif et ne remplace pas l'expertise professionnelle.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer style="background: var(--darker-bg); color: var(--text-secondary); text-align: center; padding: 2rem 0; margin-top: 2rem; border-top: 1px solid rgba(0, 247, 255, 0.2);">
+    <div class="container">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+        <div style="font-size: 1.5rem; font-weight: 700; color: var(--neon-blue);">
+          <i class="fas fa-hard-hat"></i> Guide Technique Ultime des Fondations
+        </div>
+        <div style="font-size: 0.9rem; opacity: 0.7; max-width: 600px; line-height: 1.6;">
+          © 2025 - Conforme aux Eurocodes EN 1997-1 & EN 1992-1-1<br>
+          Ce guide est à but éducatif. Consultez un ingénieur qualifié pour vos projets.<br>
+          <strong>La sécurité des personnes est notre priorité absolue.</strong>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
